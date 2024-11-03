@@ -1,0 +1,90 @@
+<Schema name="ShoesMeSchema">
+  <Dimension visible="true" highCardinality="false" name="BuyerDimension">
+    <Hierarchy visible="true" hasAll="true" primaryKey="PembeliID">
+      <Table name="buyerdimension">
+      </Table>
+      <Level name="PembeliID" visible="true" column="PembeliID" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nama_Pembeli" visible="true" column="Nama_Pembeli" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Alamat_Pembeli" visible="true" column="Alamat_Pembeli" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Negara_Pembeli" visible="true" column="Negara_Pembeli" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="LocationDimension">
+    <Hierarchy visible="true" hasAll="true" primaryKey="LokasiID">
+      <Table name="locationdimension">
+      </Table>
+      <Level name="LokasiID" visible="true" column="LokasiID" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nama_Lokasi" visible="true" column="Nama_Lokasi" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Alamat" visible="true" column="Alamat" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Negara" visible="true" column="Negara" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="SellerDimension">
+    <Hierarchy visible="true" hasAll="true" primaryKey="PenjualID">
+      <Table name="sellerdimension">
+      </Table>
+      <Level name="PenjualID" visible="true" column="PenjualID" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nama_Penjual" visible="true" column="Nama_Penjual" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Alamat_Penjual" visible="true" column="Alamat_Penjual" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Negara_Penjual" visible="true" column="Negara_Penjual" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension visible="true" highCardinality="false" name="WarehouseDimension">
+    <Hierarchy visible="true" hasAll="true" primaryKey="GudangID">
+      <Table name="warehousedimension">
+      </Table>
+      <Level name="GudangID" visible="true" column="GudangID" type="Numeric" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nama_Gudang" visible="true" column="Nama_Gudang" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Alamat_Gudang" visible="true" column="Alamat_Gudang" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Negara_Gudang" visible="true" column="Negara_Gudang" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Shipping">
+    <Hierarchy visible="true" hasAll="true" primaryKey="PengirimanID">
+      <Table name="shipping">
+      </Table>
+      <Level name="PengirimanID" visible="true" column="PengirimanID" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Jumlah_Pengiriman" visible="true" column="Jumlah_Pengiriman" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Nama_Perusahaan" visible="true" column="Nama_Perusahaan" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Total_Biaya" visible="true" column="Total_Biaya" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="SalesCube" visible="true" defaultMeasure="Jumlah_Pengiriman" cache="true" enabled="true">
+    <Table name="facttable">
+    </Table>
+    <DimensionUsage source="LocationDimension" name="LocationDimension" visible="true" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="SellerDimension" name="SellerDimension" visible="true" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="WarehouseDimension" name="WarehouseDimension" visible="true" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Shipping" name="Shipping" visible="true" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="BuyerDimension" name="BuyerDimension" visible="true" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Jumlah_Pengiriman" column="Jumlah_Pengiriman" formatString="#,##0" aggregator="sum">
+    </Measure>
+    <Measure name="Total_Biaya" column="Total_Biaya" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
